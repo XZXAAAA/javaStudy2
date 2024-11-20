@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DAO.UserEntity" >
+    <update id="updateUser">
+        update t_emp set emp_name='张四' where emp_id=117
+    </update>
+    <select id="getUser" resultType="Entities.userEntity">
+        select * from t_emp
+    </select>
+    <select id="getUserByAge" resultType="Entities.userEntity">
+        select * from t_emp where emp_age=#{age}
+    </select>
+    <select id="getUserByAge2" resultType="Entities.userEntity">
+        select * from t_emp where emp_age=${age}
+    </select>
+    <select id="getUserByTwoProperties" resultType="Entities.userEntity">
+        select * from t_emp where emp_name=#{arg0} and emp_id=#{arg1}
+    </select>
+    <select id="getUserByMap" parameterType="map" resultType="Entities.userEntity">
+        select * from t_emp where emp_name=#{username} and emp_id=#{id}
+    </select>
+    <insert id="insertUser">
+        insert into t_emp(emp_id,emp_name,emp_salary,emp_age) values('${arg0}','${arg1}','${arg2}','${arg3}')
+    </insert>
+    <select id="getUserByParam" resultType="Entities.userEntity">
+        select * from t_emp where emp_id=#{id}
+    </select>
+    <select id="getUserUnclear"  resultType="Entities.userEntity">
+        select * from t_emp where emp_name like '%${name}%'
+    </select>
+
+    <resultMap id="showTableMap" type="userEntity">
+        <id column="emp_name" property="emp_name"></id>
+        <result column="emp_age" property="emp_age"></result>
+        <result column="emp_salary" property="emp_salary"></result>
+        <result column="emp_id" property="emp_id"></result>
+    </resultMap>
+    <select id="showTable" resultMap="showTableMap">
+        select * from ${tableName}
+    </select>
+
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="emp_id">
+        insert into t_emp(emp_id,emp_name,emp_salary,emp_age) values(null,'${emp_name}','${emp_salary}','${emp_age}')
+    </insert>
+</mapper>
